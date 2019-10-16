@@ -1,7 +1,7 @@
 import { Input, Component } from '@angular/core';
 
 @Component({
-    selector: 'app-notification',
+    selector: 'app-notification-old',
     templateUrl: './notification.component.html',
     styleUrls: ['./notification.component.scss']
 })
@@ -10,6 +10,7 @@ export class NotificationComponent {
     @Input()
     public alerts: Array<IAlert> = [];
     private backup: Array<IAlert>;
+
 
     constructor() {
         this.alerts.push({

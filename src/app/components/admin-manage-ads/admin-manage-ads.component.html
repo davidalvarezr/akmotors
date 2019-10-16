@@ -1,0 +1,82 @@
+<div class="wrapper">
+  <div
+    class="blackbackground"
+    filter-color="orange">
+    <div class="space-100"></div>
+    <div class="container">
+      <div class="col-md-12">
+
+        <div class="list">
+
+
+          <div
+            *ngFor="let ad of ads"
+            class="nav-link nopadding marginBottom30"
+            class="row ad">
+
+            <img
+              class="col-12 col-lg-4 nopadding nomargin"
+              src="https://imgsv.imaging.nikon.com/lineup/dslr/df/img/sample/img_01.jpg">
+            <div class="col-12 col-lg-8 nopadding nomargin padding15">
+              <h2>{{ad.title}}</h2>
+              <div class="row">
+                <div class="col-md-6"><h6><b>Marque:</b> {{getVehicle(ad).brand}}</h6></div>
+                <div class="col-md-6"><h6><b>Modèle:</b> {{getVehicle(ad).model}}</h6></div>
+              </div>
+              <p>{{ad.description}}</p>
+              <h6><b>État:</b> {{getVehicle(ad).vehicleState}} | <b>Année:</b> {{getVehicle(ad).year}} |
+                <b>Électrique:</b> {{getVehicle(ad).isElectric ? 'oui' : 'non'}}</h6>
+
+              <div class="btn-container">
+                <a href="{{endpoint}}/{{ad.id}}">
+                  <button class="btn btn-info">Consulter</button>
+                </a>
+                <button class="btn btn-warning">Modifier</button>
+                <button
+                  class="btn btn-danger"
+                  (click)="idToBeDeleted=ad.id; open(classic,'' , '')">Supprimer
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <ng-template
+      #classic
+      let-c="close"
+      let-d="dismiss">
+    <div class="modal-header justify-content-center">
+      <button
+        type="button"
+        class="close"
+        (click)="d('Cross click')">
+        <i class="now-ui-icons ui-1_simple-remove"></i>
+      </button>
+      <h4 class="title title-up">Suppression</h4>
+    </div>
+    <div class="modal-body">
+      <p>Êtes vous sûr de vouloir supprimer ce véhicule ?
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="deleteVehicle()">Oui
+      </button>
+      <button
+        type="button"
+        class="btn"
+        (click)="c('Close click')">Fermer
+      </button>
+    </div>
+  </ng-template>
+
+</div>

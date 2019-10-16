@@ -1,0 +1,43 @@
+.blackbackground {
+  min-height: 100vh;
+  background-color: black;
+}
+
+.list {
+  margin: 0;
+}
+
+a > .ad {
+  color: white;
+}
+
+.ad {
+  background-color: #32383e;
+  margin-bottom: 10px;
+  padding: 0;
+  color: white;
+
+  * {
+    text-align: left;
+  }
+
+  .btn-container {
+    text-align: center;
+  }
+}
+
+.nomargin {
+  margin: 0px;
+}
+
+.nopadding {
+  padding: 0px;
+}
+
+.padding15 {
+  padding: 15px;
+}
+
+.marginBottom30 {
+  margin-bottom: 30px;
+}

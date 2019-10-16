@@ -1,0 +1,221 @@
+<div class="wrapper">
+  <div
+    class="page-header"
+    style="background-color: grey">
+    <div class="container">
+      <div class="col-md-4 content-center">
+        <div class="card  card-plain">
+          <h1>Ajout d'une annonce</h1>
+          <div
+            class="form"
+            method=""
+            action="">
+            <div class="content">
+
+              <!--TITLE-->
+              <div class="input-group form-group-no-border input-lg">
+                <input
+                  [(ngModel)]="title"
+                  type="text"
+                  class="form-control"
+                  placeholder="Titre">
+              </div>
+
+              <!--DESCRIPTION-->
+              <div class="input-group form-group-no-border input-lg">
+                <textarea
+                  [(ngModel)]="description"
+                  rows=10
+                  type="text"
+                  placeholder="Description"
+                  class="form-control"></textarea>
+              </div>
+
+              <div class="row">
+
+                <!--VEHICLE TYPE-->
+                <div
+                  class="col-6 col-md-3"
+                  style="margin-bottom: 10px; text-align: right">Type de véhicule
+                </div>
+                <div
+                  class="col-6 col-md-3"
+                  style="margin-bottom: 10px; text-align: left">
+                  <select [(ngModel)]="vehicleType">
+                    <option *ngFor="let vehicleType of vehicleTypeStrings">{{vehicleType}}</option>
+                  </select>
+                </div>
+
+                <div *ngIf="vehicleType" class="row col-12">
+
+                  <!--VEHICLE STATE-->
+                  <div class="row col-12" *ngIf="[car, scooter, motorBike, bike].includes(vehicleType)">
+                    <div
+                      class="col-6 col-md-3"
+                      style="margin-bottom: 10px; text-align: right">État du véhicule
+                    </div>
+                    <div
+                      class="col-6 col-md-3"
+                      style="margin-bottom: 10px; text-align: left">
+                      <select [(ngModel)]="vehicleState">
+                        <option *ngFor="let vehicleState of vehicleStateStrings">{{vehicleState}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+
+                  <div class="row col-12">
+
+                    <!--FUEL TYPE-->
+                    <div class="row nomargin nopadding col-12 col-md-6" *ngIf="[car, scooter, motorBike].includes(vehicleType)">
+                      <div
+                           class="col-6"
+                           style="margin-bottom: 10px; text-align: right">Carburant
+                      </div>
+                      <div
+                        class="col-6"
+                        style="margin-bottom: 10px; text-align: left">
+                        <select [(ngModel)]="fuelType">
+                          <option *ngFor="let fuelType of fuelTypeStrings">{{fuelType}}</option>
+                        </select>
+                      </div>
+                    </div>
+
+
+                    <!--GEARBOX STATE-->
+                    <div class="row nomargin nopadding col-12 col-md-6" *ngIf="[car, scooter, motorBike].includes(vehicleType)">
+                      <div
+                        class="col-6"
+                        style="margin-bottom: 10px; text-align: right">Boîte de vitesse
+                      </div>
+                      <div
+                        class="col-6"
+                        style="margin-bottom: 10px; text-align: left">
+                        <select [(ngModel)]="gearBoxType">
+                          <option *ngFor="let gearBoxType of gearBoxTypeStrings">{{gearBoxType}}</option>
+                        </select>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <!--BRAND-->
+                  <div *ngIf="[car, scooter, motorBike, bike].includes(vehicleType)" class="col-6 col-md-3 input-group form-group-no-border input-lg">
+                    <input
+                      [(ngModel)]="brand"
+                      type="text"
+                      class="form-control"
+                      placeholder="Marque">
+                  </div>
+
+                  <!--MODEL-->
+                  <div *ngIf="[car, scooter, motorBike, bike].includes(vehicleType)" class="col-6 col-md-3 input-group form-group-no-border input-lg">
+                    <input
+                      [(ngModel)]="model"
+                      type="text"
+                      class="form-control"
+                      placeholder="Modèle">
+                  </div>
+
+                  <!--YEAR-->
+                  <div *ngIf="[car, scooter, motorBike, bike].includes(vehicleType)" class="col-6 col-md-3 input-group form-group-no-border input-lg">
+                    <input
+                      [(ngModel)]="year"
+                      type="text"
+                      class="form-control"
+                      placeholder="Année">
+                  </div>
+
+                  <!--KILOMETERS-->
+                  <div *ngIf="[car, scooter, motorBike].includes(vehicleType)" class="col-6 col-md-3 input-group form-group-no-border input-lg">
+                    <input
+                      [(ngModel)]="kms"
+                      type="text"
+                      class="form-control"
+                      placeholder="Kilomètres">
+                  </div>
+
+                  <!--POWER (CV)-->
+                  <div *ngIf="[car, scooter, motorBike].includes(vehicleType)" class="col-6 col-md-3 input-group form-group-no-border input-lg">
+                    <input
+                      [(ngModel)]="powerCV"
+                      type="text"
+                      class="form-control"
+                      placeholder="Puissance (CV)">
+                  </div>
+
+                  <!--CYLINDER (CM^3)-->
+                  <div *ngIf="[scooter, motorBike].includes(vehicleType)" class="col-6 col-md-3 input-group form-group-no-border input-lg">
+                    <input
+                      [(ngModel)]="cylinderCM3"
+                      type="text"
+                      class="form-control"
+                      placeholder="Cylindrée (cm3)">
+                  </div>
+
+                  <!--CYLINDER (L)-->
+                  <div *ngIf="[car].includes(vehicleType)" class="col-6 col-md-3 input-group form-group-no-border input-lg">
+                    <input
+                      [(ngModel)]="cylinderL"
+                      type="text"
+                      class="form-control"
+                      placeholder="Cylindrée (L)">
+                  </div>
+
+                  <!--IS ELECTRC-->
+                  <div *ngIf="[car, scooter, motorBike, bike].includes(vehicleType)" class="col-6 col-md-3 form-check">
+                    <label class="form-check-label">
+                      <input
+                        [(ngModel)]="isElectric"
+                        class="form-check-input"
+                        type="checkbox">
+                      <span class="form-check-sign"></span>
+                      Électric
+                    </label>
+                  </div>
+
+
+                  <!--NB OF SPEEDS-->
+                  <div *ngIf="[bike].includes(vehicleType)" class="col-6 col-md-3 input-group form-group-no-border input-lg">
+                    <input
+                      [(ngModel)]="gearsNumber"
+                      type="text"
+                      class="form-control"
+                      placeholder="Nombre de vitesses">
+                  </div>
+
+                  <!--NB OF TRAYS-->
+                  <div *ngIf="[bike].includes(vehicleType)" class="col-6 col-md-3 input-group form-group-no-border input-lg">
+                    <input
+                      [(ngModel)]="traysNumber"
+                      type="text"
+                      class="form-control"
+                      placeholder="Nombre de plateaux">
+                  </div>
+
+
+                  <!--PRICE CHF-->
+                  <div *ngIf="[car, scooter, motorBike, bike].includes(vehicleType)" class="col-6 col-md-3 input-group form-group-no-border input-lg">
+                    <input
+                      [(ngModel)]="priceCHF"
+                      type="text"
+                      class="form-control"
+                      placeholder="Prix (CHF)">
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+            <div class="footer text-center">
+              <a
+                class="btn btn-primary btn-round btn-lg btn-block"
+                (click)="createAd()">Créer l'annonce</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

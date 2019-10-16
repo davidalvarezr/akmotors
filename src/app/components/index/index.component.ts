@@ -6,6 +6,7 @@ import * as Rellax from 'rellax';
 @Component({
     selector: 'app-components',
     templateUrl: '../components.component.OLD.html',
+  // templateUrl: 'index.component.html',
     styles: [`
     ngb-progressbar {
         margin-top: 5rem;
