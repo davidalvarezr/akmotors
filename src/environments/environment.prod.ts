@@ -10,8 +10,12 @@ const publicEndpoint = `${endpoint}/public`;
 
 export const routes = {
   login: `${publicEndpoint}/authenticate`,
-  addAd: `${endpoint}/ads`,                     // POST
-  getAllAds: `${publicEndpoint}/ads`,           // GET
-  getOneAd: `${publicEndpoint}/ads`, // /{id}   // GET
-  deleteOneAd: `${endpoint}/ads`, // /{id}   // DELETE
+  addAd: `${endpoint}/ads`,                                       // POST
+  getAllAds: `${publicEndpoint}/ads`,                             // GET
+  getOneAd: `${publicEndpoint}/ads`, // /{id}                     // GET
+  deleteOneAd: `${endpoint}/ads`, // /{id}                        // DELETE
+  softDeleteOneAd: `${endpoint}/ads/softDelete`, // /{id}         // DELETE
+  addImages: `${endpoint}/file/upload`,                           // POST
+  deleteImages: `${endpoint}/file/delete`, // /{id}               // DELETE
+  retrieveImage: `${publicEndpoint}/file/download`, // /{id-n}    // GET
 }

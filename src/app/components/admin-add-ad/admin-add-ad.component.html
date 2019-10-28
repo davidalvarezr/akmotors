@@ -1,11 +1,11 @@
 <div class="wrapper">
-  <div
-    class="page-header"
-    style="background-color: grey">
+  <div style="background-color: slategrey; min-height: 100vh; text-align: center">
+    <div class="space-100"></div>
     <div class="container">
-      <div class="col-md-4 content-center">
+      <div class="space-110"></div>
+      <div class="col-md-12">
         <div class="card  card-plain">
-          <h1>Ajout d'une annonce</h1>
+          <h1>{{id ? 'Modification' : 'Ajout'}} d'une annonce</h1>
           <div
             class="form"
             method=""
@@ -42,7 +42,7 @@
                   class="col-6 col-md-3"
                   style="margin-bottom: 10px; text-align: left">
                   <select [(ngModel)]="vehicleType">
-                    <option *ngFor="let vehicleType of vehicleTypeStrings">{{vehicleType}}</option>
+                    <option *ngFor="let vehicleType of vehicleTypeOptions" [ngValue]="vehicleType.val">{{vehicleType.disp}}</option>
                   </select>
                 </div>
 
@@ -58,7 +58,7 @@
                       class="col-6 col-md-3"
                       style="margin-bottom: 10px; text-align: left">
                       <select [(ngModel)]="vehicleState">
-                        <option *ngFor="let vehicleState of vehicleStateStrings">{{vehicleState}}</option>
+                        <option *ngFor="let vehicleStateOption of vehicleStateOptions" [ngValue]="vehicleStateOption.val">{{vehicleStateOption.disp}}</option>
                       </select>
                     </div>
                   </div>
@@ -76,7 +76,7 @@
                         class="col-6"
                         style="margin-bottom: 10px; text-align: left">
                         <select [(ngModel)]="fuelType">
-                          <option *ngFor="let fuelType of fuelTypeStrings">{{fuelType}}</option>
+                          <option *ngFor="let fuelTypeOption of fuelTypeOptions" [ngValue]="fuelTypeOption.val">{{fuelTypeOption.disp}}</option>
                         </select>
                       </div>
                     </div>
@@ -92,7 +92,7 @@
                         class="col-6"
                         style="margin-bottom: 10px; text-align: left">
                         <select [(ngModel)]="gearBoxType">
-                          <option *ngFor="let gearBoxType of gearBoxTypeStrings">{{gearBoxType}}</option>
+                          <option *ngFor="let gearBoxTypeOption of gearBoxTypeOptions" [ngValue]="gearBoxTypeOption.val">{{gearBoxTypeOption.disp}}</option>
                         </select>
                       </div>
                     </div>
@@ -207,11 +207,40 @@
 
               </div>
 
+              <h2 style="display: inline">Photos:&nbsp;</h2>
+
+              <button *ngIf="id && !edit.updatePhotos" (click)="edit.updatePhotos=true">Modifier les images</button>
+              <button *ngIf="edit.updatePhotos" (click)="edit.updatePhotos=false; edit.confirmUpdatePhotos=false; previewUrls=[]">Annuler</button>
+              <input *ngIf="!id || edit.updatePhotos" type="file" name="images" (change)="fileProgress($event)" multiple="multiple" accept="image/*"/>
+
+              <div *ngIf="fileUploadProgress">
+                Upload progress: {{ fileUploadProgress }}
+              </div>
+
+              <div class="space-10"></div>
+
+
+              <!-- Preview images when updating -->
+              <div *ngIf="id && !isLoading && !edit.updatePhotos" class="row col-12">
+                <div class="col-12 col-xl-6" *ngFor="let n of arrayFromXToYBothInlcuded(1, ad.imageNb)">
+                  <img [src]="imageRoute + '/' + id + '-' + n" height="300" />
+                  <div class="space-10"></div>
+                </div>
+              </div>
+
+              <!-- Preview images when adding -->
+              <div *ngIf="previewUrls" class="row col-12">
+                <div class="col-12 col-xl-6" *ngFor="let previewUrl of previewUrls">
+                  <img [src]="previewUrl" height="300" />
+                  <div class="space-10"></div>
+                </div>
+              </div>
+
             </div>
             <div class="footer text-center">
               <a
                 class="btn btn-primary btn-round btn-lg btn-block"
-                (click)="createAd()">Créer l'annonce</a>
+                (click)="createAd()">{{id ? 'Modifier' : 'Créer'}} l'annonce</a>
             </div>
           </div>
         </div>

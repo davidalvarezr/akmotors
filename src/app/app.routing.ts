@@ -23,6 +23,7 @@ const routes: Routes = [
   {path: 'admin/login', component: AdminLoginComponent},
   {path: 'admin/control-panel', component: AdminControlPanelComponent},
   {path: 'admin/add-ad', component: AdminAddAdComponent},
+  {path: 'admin/add-ad/:id', component: AdminAddAdComponent},
   {path: 'admin/manage-ads', component: AdminManageAdsComponent}
 ];
 

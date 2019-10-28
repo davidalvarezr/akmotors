@@ -1,9 +1,21 @@
 import {Component, OnInit} from '@angular/core';
-import {Ad, Vehicle, VehicleType} from '../../models/Vehicles';
+import {
+  Ad,
+  FuelType,
+  GearBoxType,
+  getDispFromVal,
+  getVehicle,
+  getVehicleType,
+  Vehicle,
+  VehicleState,
+  VehicleType
+} from '../../models/Vehicles';
 import {AdService} from '../../services/ad.service';
 import {routes} from '../../../environments/environment.prod';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Router} from '@angular/router';
+import {forkJoin} from 'rxjs';
+import {HttpResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-admin-manage-ads',
@@ -13,7 +25,11 @@ import {Router} from '@angular/router';
 export class AdminManageAdsComponent implements OnInit {
 
   get endpoint(): string {
-    return this._endpoint;
+    return routes.getOneAd;
+  }
+
+  get retrieveImage(): string {
+    return routes.retrieveImage;
   }
 
   set idToBeDeleted(id: string) {
@@ -23,7 +39,6 @@ export class AdminManageAdsComponent implements OnInit {
   closeResult: string;
   ads: Ad[];
 
-  private _endpoint = routes.getOneAd;
 
   private _idToBeDeleted: string;
 
@@ -41,15 +56,15 @@ export class AdminManageAdsComponent implements OnInit {
   }
 
   getVehicle(ad: Ad): Vehicle {
-    if (ad.car) {
-      return ad.car;
-    }
-    if (ad.twoWheelers) {
-      return ad.twoWheelers;
-    }
-    if (ad.bike) {
-      return ad.bike;
-    }
+    return getVehicle(ad);
+  }
+
+  getVehicleType(ad: Ad): VehicleType {
+    return getVehicleType(ad);
+  }
+
+  translate(val: VehicleType | VehicleState | FuelType | GearBoxType): string {
+    return getDispFromVal(val);
   }
 
   ngOnInit() {
@@ -78,19 +93,33 @@ export class AdminManageAdsComponent implements OnInit {
 
   }
 
-  // TODO: refresh page and log error
   deleteVehicle() {
-    this.adService.deleteAd(this._idToBeDeleted)
-      .subscribe(
-        _ => {
-          alert('Supprimé avec succès');
-          this.refresh();
-        },
-        error => {
-          alert('Une erreur est survenue pendans la suppression, voir logs');
-          console.error(error);
-        }
-      )
+    forkJoin(
+      this.adService.deleteAd(this._idToBeDeleted),
+      this.adService.deleteImages(this._idToBeDeleted)
+    ).subscribe(
+      (responseList: HttpResponse<any>[]) => {
+        console.log(`status: ${responseList.map((response) => response.status)}`);
+        this.refresh();
+      },
+      error => {
+        alert('Une erreur est survenue pendant la suppression, regarder les logs');
+        console.error(error);
+      })
+  }
+
+  softDeleteVehicle() {
+    forkJoin(
+      this.adService.softDeleteAd(this._idToBeDeleted),
+    ).subscribe(
+      (responseList: HttpResponse<any>[]) => {
+        console.log(`status: ${responseList.map((response) => response.status)}`);
+        this.refresh();
+      },
+      error => {
+        alert('Une erreur est survenue pendant la mise dans la corbeille, regarder les logs');
+        console.error(error);
+      })
   }
 
   private getDismissReason(reason: any): string {
@@ -104,6 +133,6 @@ export class AdminManageAdsComponent implements OnInit {
   }
 
   private refresh() {
-    this.router.navigate(['admin/manage-ads']);
+    window.location.reload();
   }
 }

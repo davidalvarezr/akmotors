@@ -68,8 +68,8 @@
 
   <app-notification
     [isVisible]="error"
-    message='Informations incorrectes'
-    strong="Erreur"
+    message='{{errorMsg.message}}'
+    strong="{{errorMsg.strong}}"
     type='danger'
     icon="health_ambulance"></app-notification>
   <app-notification

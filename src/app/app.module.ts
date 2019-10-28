@@ -1,6 +1,6 @@
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'; // this is needed!
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {RouterModule} from '@angular/router';
 import {AppRoutingModule} from './app.routing';
@@ -15,7 +15,11 @@ import {NotificationComponent} from './components/notification/notification.comp
 import { AdminControlPanelComponent } from './components/admin-control-panel/admin-control-panel.component';
 import { AdminAddAdComponent } from './components/admin-add-ad/admin-add-ad.component';
 import { AdminManageAdsComponent } from './components/admin-manage-ads/admin-manage-ads.component';
+import {registerLocaleData} from '@angular/common';
 
+import localeCh from '@angular/common/locales/fr-CH'
+
+registerLocaleData(localeCh);
 
 @NgModule({
   declarations: [
@@ -36,6 +40,7 @@ import { AdminManageAdsComponent } from './components/admin-manage-ads/admin-man
     IndexModule,
     ExamplesModule,
     HttpClientModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   exports: [],

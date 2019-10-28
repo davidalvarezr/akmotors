@@ -11,6 +11,10 @@ export class AdminLoginComponent implements OnInit, OnDestroy {
 
   // Show notification is true
   error: boolean;
+  errorMsg =  {
+    strong: 'Erreur',
+    message: null,
+  }
   success: boolean;
 
   focus;
@@ -39,7 +43,8 @@ export class AdminLoginComponent implements OnInit, OnDestroy {
     this.success = true; this.error = false;
   }
 
-  private setError(): void {
+  private setError(code: number): void {
+    this.errorMsg.message = code === 401 ? 'Informations incorrectes' : 'Un problème est survenu';
     this.success = false; this.error = true;
   }
 
@@ -50,7 +55,9 @@ export class AdminLoginComponent implements OnInit, OnDestroy {
         this.setSuccess();
         // TODO: go to admin control panel
       },
-      _ => { this.setError(); }
+      resp => {
+        this.setError(resp.status);
+      }
     )
   }
 

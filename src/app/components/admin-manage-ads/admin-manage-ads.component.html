@@ -1,3 +1,5 @@
+<!--TODO: add button to add an ad-->
+
 <div class="wrapper">
   <div
     class="blackbackground"
@@ -14,27 +16,76 @@
             class="nav-link nopadding marginBottom30"
             class="row ad">
 
-            <img
-              class="col-12 col-lg-4 nopadding nomargin"
-              src="https://imgsv.imaging.nikon.com/lineup/dslr/df/img/sample/img_01.jpg">
-            <div class="col-12 col-lg-8 nopadding nomargin padding15">
+            <div class="col-12 col-xl-4 nopadding nomargin">
+              <img
+                *ngIf="ad.imageNb > 0"
+                [src]="retrieveImage + '/' + ad.id + '-' + 1">
+            </div>
+
+
+            <div class="col-12 col-xl-8 nopadding nomargin padding15">
               <h2>{{ad.title}}</h2>
+
               <div class="row">
-                <div class="col-md-6"><h6><b>Marque:</b> {{getVehicle(ad).brand}}</h6></div>
-                <div class="col-md-6"><h6><b>Modèle:</b> {{getVehicle(ad).model}}</h6></div>
+                <table class="col-lg-auto"  >
+                  <tr>
+                    <th>Marque</th>       <td>{{getVehicle(ad).brand}}</td>
+                  </tr>
+                  <tr>
+                    <th>Modèle</th>       <td>{{getVehicle(ad).model}}</td>
+                  </tr>
+                  <tr>
+                    <th>Année</th>        <td>{{getVehicle(ad).year}}</td>
+                  </tr>
+                  <tr>
+                    <th>État</th>         <td>{{translate(getVehicle(ad).vehicleState)}}</td>
+                  </tr>
+                  <tr *ngIf="(['CAR', 'MOTORBIKE', 'SCOOTER']).includes(getVehicleType(ad))">
+                    <th>Kilomètres</th>   <td>{{getVehicle(ad).kms | number:'':'fr-CH'}}</td>
+                  </tr>
+                  <tr *ngIf="(['CAR', 'MOTORBIKE', 'SCOOTER']).includes(getVehicleType(ad))">
+                    <th>Carburant</th>   <td>{{translate(getVehicle(ad).fuelType)}}</td>
+                  </tr>
+                  <tr *ngIf="(['CAR', 'MOTORBIKE', 'SCOOTER']).includes(getVehicleType(ad))">
+                    <th>Puissance</th>   <td>{{getVehicle(ad).powerCV}} KW / {{getVehicle(ad).powerCV * 1.36}} CV</td>
+                  </tr>
+                  <tr *ngIf="(['CAR']).includes(getVehicleType(ad))">
+                    <th>Cylindrée</th>   <td>{{getVehicle(ad).cylinderL}} L</td>
+                  </tr>
+                  <tr *ngIf="(['MOTORBIKE', 'SCOOTER']).includes(getVehicleType(ad))">
+                    <th>Cylindrée</th>   <td>{{getVehicle(ad).cylinderCM3}} cm<sup>3</sup></td>
+                  </tr>
+                  <tr *ngIf="(['CAR']).includes(getVehicleType(ad))">
+                    <th>Boîte de vitesse</th>   <td>{{translate(getVehicle(ad).gearBoxType)}}</td>
+                  </tr>
+                  <tr *ngIf="(['BIKE']).includes(getVehicleType(ad))">
+                    <th>Nombre de vitesses</th>   <td>{{getVehicle(ad).gearsNumber}}</td>
+                  </tr>
+                  <tr *ngIf="(['BIKE']).includes(getVehicleType(ad))">
+                    <th>Nombre de plateaux</th>   <td>{{getVehicle(ad).traysNumber}}</td>
+                  </tr>
+                  <tr *ngIf="(['BIKE']).includes(getVehicleType(ad))" >
+                    <th>Électrique</th>   <td>{{getVehicle(ad).isElectric ? 'oui' : 'non'}}</td>
+                  </tr>
+                  <tr>
+                    <th>Prix</th>   <td>{{ad.priceCHF | currency:'CHF':'symbol':'1.0-0':'fr-CH'}}</td>
+                  </tr>
+                </table>
+
+                <p class="col-lg">{{ad.description}}</p>
               </div>
-              <p>{{ad.description}}</p>
-              <h6><b>État:</b> {{getVehicle(ad).vehicleState}} | <b>Année:</b> {{getVehicle(ad).year}} |
-                <b>Électrique:</b> {{getVehicle(ad).isElectric ? 'oui' : 'non'}}</h6>
 
               <div class="btn-container">
                 <a href="{{endpoint}}/{{ad.id}}">
                   <button class="btn btn-info">Consulter</button>
                 </a>
-                <button class="btn btn-warning">Modifier</button>
+                <a [routerLink]="['/admin/add-ad', ad.id]">
+                  <button class="btn btn-warning">Modifier</button>
+                </a>
+
                 <button
                   class="btn btn-danger"
-                  (click)="idToBeDeleted=ad.id; open(classic,'' , '')">Supprimer
+                  (click)="idToBeDeleted=ad.id; open(classic,'' , '')">Corbeille
                 </button>
               </div>
             </div>
@@ -69,7 +120,7 @@
       <button
         type="button"
         class="btn btn-danger"
-        (click)="deleteVehicle()">Oui
+        (click)="softDeleteVehicle()">Oui
       </button>
       <button
         type="button"
